@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { downloadPokemons } from "./redux/actionCreators";
+import MainPage from "./components/MainPage";
+import Pokemon from "./components/Pokemon";
+import Move from "./components/Move";
+import { makeStyles } from "@material-ui/core/styles";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Container from "@material-ui/core/Container";
 
-function App() {
+const useStyles = makeStyles({
+  root: {
+    backgroundColor: "rgb(179, 223, 248)",
+    paddingTop: "1rem",
+    paddingBottom: "2rem",
+    height: "100%",
+  },
+});
+
+const App: React.FC = () => {
+  const dispatch = useDispatch();
+  const classes = useStyles();
+
+  useEffect(() => {
+    dispatch(downloadPokemons());
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Container className={classes.root}>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/moves/:name">
+              <Move />
+            </Route>
+            <Route path="/pokemons/:name">
+              <Pokemon />
+            </Route>
+            <Route path="/">
+              <MainPage />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </Container>
+    </>
   );
-}
+};
 
 export default App;
