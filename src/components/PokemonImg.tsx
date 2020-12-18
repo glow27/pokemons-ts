@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardMedia } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
+import LazyLoad from "react-lazyload";
 
 const useStyles = makeStyles({
   root: {
@@ -26,11 +27,13 @@ const PokemonImg: React.FC<Props> = ({ url, name }) => {
   return (
     <Link to={`/pokemons/${name}`}>
       <Card className={classes.root}>
-        <CardMedia
-          className={classes.media}
-          image={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`}
-          title={name}
-        />
+        <LazyLoad>
+          <CardMedia
+            className={classes.media}
+            image={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`}
+            title={name}
+          />
+        </LazyLoad>
       </Card>
     </Link>
   );

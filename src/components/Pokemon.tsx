@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { downloadOnePokemon } from "../redux/actionCreators";
 import { Link } from "react-router-dom";
 import { Container, CardMedia, Grid } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
-import BackBtn from './BackBtn';
-
+import BackBtn from "./BackBtn";
+import Spinner from "./spinner/Spiner";
 
 const useStyles = makeStyles({
   root: {
@@ -36,21 +34,24 @@ const useStyles = makeStyles({
 
 const Pokemon: React.FC = () => {
   const { name } = useParams<any>();
-  const dispatch = useDispatch();
-  const pokemon: any = useSelector<any>((state) => state.current);
+  const [pokemon, setPokemon] = useState<any>({});
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
   useEffect(() => {
-    dispatch(downloadOnePokemon(name));
-  }, [name, dispatch]);
+    (async function () {
+      const result = await (
+        await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+      ).json();
+      setPokemon(result);
+    })();
+  }, [name]);
 
   return (
     <>
-    <BackBtn/>
+      <BackBtn />
       <Container className={classes.root}>
-      
-        {pokemon.name && (
+        {pokemon.name ? (
           <>
             <h1 className={classes.text}>{pokemon.name.toUpperCase()}</h1>
             <p>
@@ -83,6 +84,8 @@ const Pokemon: React.FC = () => {
               ))}
             </Grid>
           </>
+        ) : (
+          <Spinner />
         )}
       </Container>
     </>

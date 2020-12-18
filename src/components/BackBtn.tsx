@@ -1,14 +1,14 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { makeStyles } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
+import React from "react";
+import { useHistory } from "react-router-dom";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { makeStyles } from "@material-ui/core/styles";
+import Fab from "@material-ui/core/Fab";
 
 const useStyles = makeStyles({
   back: {
-    position: 'fixed',
-  }
-}); 
+    position: "fixed",
+  },
+});
 
 const BackBtn: React.FC = () => {
   const history = useHistory();
@@ -16,9 +16,17 @@ const BackBtn: React.FC = () => {
 
   return (
     <>
-      <Fab onClick={() => {history.goBack()}} size="small" className={classes.back} color="primary" aria-label="back">
-      <ArrowBackIcon/>
-      </Fab> 
+      <Fab
+        onClick={() => {
+          history.goBack();
+        }}
+        size="small"
+        className={classes.back}
+        color="primary"
+        aria-label="back"
+      >
+        <ArrowBackIcon />
+      </Fab>
     </>
   );
 };
