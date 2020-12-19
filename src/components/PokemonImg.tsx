@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardMedia } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,6 +13,12 @@ const useStyles = makeStyles({
     width: "20vw",
     margin: "0.3rem auto",
   },
+  load: {
+    height: "20vw",
+    width: "20vw",
+    margin: "0.3rem auto",
+    filter: "blur(25px)",
+  }
 });
 
 type Props = {
@@ -23,15 +29,18 @@ type Props = {
 const PokemonImg: React.FC<Props> = ({ url, name }) => {
   const id = url.slice(0, url.length - 1);
   const classes = useStyles();
-
+  const [load, setLoad] = useState(false);
+  
   return (
     <Link to={`/pokemons/${name}`}>
       <Card className={classes.root}>
         <LazyLoad>
           <CardMedia
-            className={classes.media}
+            component="img"
+            className={load ? classes.media : classes.load}
             image={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`}
             title={name}
+            onLoad={()=>setLoad(true)}
           />
         </LazyLoad>
       </Card>
