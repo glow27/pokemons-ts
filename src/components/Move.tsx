@@ -13,9 +13,18 @@ const useStyles = makeStyles({
   },
 });
 
+type ParamsType = {
+  name: string;
+};
+
+type MoveType = {
+  name: string;
+  flavor_text_entries: any[];
+};
+
 const Move: React.FC = () => {
-  const { name } = useParams<any>();
-  const [move, setMove] = useState<any>({});
+  const { name } = useParams<ParamsType>();
+  const [move, setMove] = useState<MoveType | null>();
   const classes = useStyles();
 
   useEffect(() => {
@@ -31,7 +40,7 @@ const Move: React.FC = () => {
     <>
       <BackBtn />
       <Box className={classes.root}>
-        {move.name ? (
+        {move ? (
           <>
             <Typography variant="h3" gutterBottom>
               {move.name.toUpperCase()}

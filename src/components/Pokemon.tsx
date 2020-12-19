@@ -32,9 +32,21 @@ const useStyles = makeStyles({
   },
 });
 
+type ParamsType = {
+  name: string;
+};
+
+type PokemonType = {
+  name: string;
+  moves: any[];
+  types: any[];
+  stats: any[];
+  id: string;
+};
+
 const Pokemon: React.FC = () => {
-  const { name } = useParams<any>();
-  const [pokemon, setPokemon] = useState<any>({});
+  const { name } = useParams<ParamsType>();
+  const [pokemon, setPokemon] = useState<PokemonType | null>();
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -51,7 +63,7 @@ const Pokemon: React.FC = () => {
     <>
       <BackBtn />
       <Container className={classes.root}>
-        {pokemon.name ? (
+        {pokemon ? (
           <>
             <h1 className={classes.text}>{pokemon.name.toUpperCase()}</h1>
             <p>

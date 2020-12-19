@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Pagination from "@material-ui/lab/Pagination";
 import { setPage } from "../redux/actionCreators";
 import { makeStyles } from "@material-ui/core/styles";
+import Spinner from "../components/spinner/Spiner";
 
 const useStyles = makeStyles({
   pages: {
@@ -12,11 +13,26 @@ const useStyles = makeStyles({
   },
 });
 
+export type PokemonType = {
+  name: string;
+  url: string;
+};
+
+type StateType = {
+  list: PokemonType[];
+  page: number;
+};
+
+type DisplayType = PokemonType[] | null;
+
+const list = (state: StateType) => state.list;
+const page = (state: StateType) => state.page;
+
 const MainPage: React.FC = () => {
-  const results: any = useSelector<any>((state) => state.list.results);
-  const ind: any = useSelector<any>((state) => state.page);
+  const results = useSelector(list);
+  const ind = useSelector(page);
   const classes = useStyles();
-  const [display, setDisplay] = useState([]);
+  const [display, setDisplay] = useState<DisplayType>();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,13 +44,13 @@ const MainPage: React.FC = () => {
   return (
     <>
       <Grid container spacing={2}>
-        {results &&
-          display.map((el: any, i: number) => (
+        {display &&
+          display.map((el: PokemonType, i: number) => (
             <Grid key={i} item xs={3}>
               <PokemonImg name={el.name} url={el.url.slice(34)} />
             </Grid>
           ))}
-        {results && (
+        {results.length ? (
           <Pagination
             className={classes.pages}
             page={ind + 1}
@@ -44,6 +60,8 @@ const MainPage: React.FC = () => {
               dispatch(setPage(page - 1));
             }}
           />
+        ) : (
+          <Spinner />
         )}
       </Grid>
     </>

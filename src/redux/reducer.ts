@@ -1,10 +1,24 @@
-import { GET_ALL_POKEMONS, SET_PAGE } from "./actionTypes";
+import {
+  GET_ALL_POKEMONS,
+  SET_PAGE,
+  PokemonType,
+  GetPokemonsType,
+  SetPageType,
+} from "./actionTypes";
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default function (
-  state = { list: [], page: 0 },
-  action: { type: any; payload: any }
-) {
+type ReducerType = {
+  list: PokemonType[];
+  page: number;
+};
+
+type ReducerActionTypes = GetPokemonsType | SetPageType;
+
+const initialState: ReducerType = { list: [], page: 0 };
+
+export function reducer(
+  state = initialState,
+  action: ReducerActionTypes
+): ReducerType {
   switch (action.type) {
     case GET_ALL_POKEMONS:
       return { ...state, list: action.payload };
@@ -14,3 +28,5 @@ export default function (
       return state;
   }
 }
+
+export type RootState = ReturnType<typeof reducer>;
