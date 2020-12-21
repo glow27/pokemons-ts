@@ -36,7 +36,7 @@
     "eject": "react-scripts eject",
     "format": "prettier --write src/**/*.ts{,x}",
     "lint": "tsc --noEmit && eslint src/**/*.ts{,x}",
-    "heroku-postbuild": "echo This"
+    "heroku-postbuild": "echo Skip builds on Heroku"
   },
   "eslintConfig": {
     "extends": [
