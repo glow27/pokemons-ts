@@ -5,7 +5,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import { setPage } from "../redux/actionCreators";
 import { makeStyles } from "@material-ui/core/styles";
 import Spinner from "../components/spinner/Spiner";
-import SinglePage from './SinglePage';
+import SinglePage from "./SinglePage";
 
 const useStyles = makeStyles({
   pages: {
@@ -44,9 +44,7 @@ const MainPage: React.FC = () => {
   return (
     <>
       <Grid container spacing={2}>
-        {display &&
-          <SinglePage pokemons={display}/>
-          }
+        {display && <SinglePage pokemons={display} />}
         {results.length ? (
           <Pagination
             className={classes.pages}

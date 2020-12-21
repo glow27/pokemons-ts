@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardMedia } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles";
 import LazyLoad from "react-lazyload";
-
 
 const useStyles = makeStyles({
   root: {
@@ -27,15 +26,19 @@ type Props = {
   name: string;
 };
 
-const PokemonImg: React.FC<Props> = React.memo(({ url, name }) => {
+const PokemonImg: React.FC<Props> = ({ url, name }) => {
   const id = url.slice(0, url.length - 1);
   const classes = useStyles();
   const [load, setLoad] = useState(false);
 
+  useEffect(() => {
+    setLoad(false);
+  }, [url, name]);
+
   return (
     <Link to={`/pokemons/${name}`}>
       <Card className={classes.root}>
-        
+        <LazyLoad>
           <CardMedia
             component="img"
             className={load ? classes.media : classes.load}
@@ -43,10 +46,10 @@ const PokemonImg: React.FC<Props> = React.memo(({ url, name }) => {
             title={name}
             onLoad={() => setLoad(true)}
           />
-       
+        </LazyLoad>
       </Card>
     </Link>
   );
-});
+};
 
 export default PokemonImg;
