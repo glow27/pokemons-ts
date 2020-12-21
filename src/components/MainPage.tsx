@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PokemonImg from "./PokemonImg";
 import Grid from "@material-ui/core/Grid";
 import Pagination from "@material-ui/lab/Pagination";
 import { setPage } from "../redux/actionCreators";
 import { makeStyles } from "@material-ui/core/styles";
 import Spinner from "../components/spinner/Spiner";
+import SinglePage from './SinglePage';
 
 const useStyles = makeStyles({
   pages: {
@@ -45,11 +45,8 @@ const MainPage: React.FC = () => {
     <>
       <Grid container spacing={2}>
         {display &&
-          display.map((el: PokemonType, i: number) => (
-            <Grid key={i} item xs={3}>
-              <PokemonImg name={el.name} url={el.url.slice(34)} />
-            </Grid>
-          ))}
+          <SinglePage pokemons={display}/>
+          }
         {results.length ? (
           <Pagination
             className={classes.pages}
